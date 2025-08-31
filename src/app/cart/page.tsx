@@ -2,11 +2,11 @@
 import PaymentForm from "@/components/PaymentForm";
 import ShippingForm from "@/components/ShippingForm";
 import useCartStore from "@/stores/cartStore";
-import { CartItemsType, ShippingFormInputs } from "@/types";
+import {  ShippingFormInputs } from "@/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const steps = [
   {
     id: 1,
@@ -79,11 +79,20 @@ const steps = [
 //   },
 // ];
 const CartPage = () => {
-      const searchParams = useSearchParams();
-  const router = useRouter();
+   const searchParams = useSearchParams();
+   const router = useRouter();
   const [shippingForm, setShippingForm] = useState<ShippingFormInputs>();
-
   const activeStep = parseInt(searchParams.get("step") || "1");
+
+  useEffect(() => {
+    // قراءة search params عند تحميل المكون
+    const searchParams = new URLSearchParams(window.location.search);
+    
+  }, []);
+     
+ 
+
+  
 
   const { cart, removeFromCart } = useCartStore();
     return (
