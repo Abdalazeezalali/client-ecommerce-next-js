@@ -2,11 +2,11 @@
 import PaymentForm from "@/components/PaymentForm";
 import ShippingForm from "@/components/ShippingForm";
 import useCartStore from "@/stores/cartStore";
-import {  ShippingFormInputs } from "@/types";
+import { CartItemsType, ShippingFormInputs } from "@/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 const steps = [
   {
     id: 1,
@@ -79,24 +79,16 @@ const steps = [
 //   },
 // ];
 const CartPage = () => {
-   const searchParams = useSearchParams();
-   const router = useRouter();
+      const searchParams = useSearchParams();
+  const router = useRouter();
   const [shippingForm, setShippingForm] = useState<ShippingFormInputs>();
+
   const activeStep = parseInt(searchParams.get("step") || "1");
-
-  useEffect(() => {
-    // قراءة search params عند تحميل المكون
-    const searchParams = new URLSearchParams(window.location.search);
-    
-  }, []);
-     
- 
-
-  
 
   const { cart, removeFromCart } = useCartStore();
     return (
-        <div className="flex flex-col gap-8 items-center justify-center mt-12">
+        <Suspense>
+          <div className="flex flex-col gap-8 items-center justify-center mt-12">
             {/* Title */}
             <h1 className="text-2xl font-medium">Your Shopping Cart</h1>
             {/* Steps */}
@@ -227,6 +219,7 @@ const CartPage = () => {
         </div>
       </div>
     </div>
+        </Suspense>
     )
 }
 
